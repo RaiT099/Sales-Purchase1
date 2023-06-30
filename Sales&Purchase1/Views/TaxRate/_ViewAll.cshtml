@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Sales_Purchase1.Models.TaxRate>
+
+
+<div class="exp1">
+
+    <p>
+        <a onclick="showInPopup('@Url.Action("AddEdit","TaxRate",new{id=0},Context.Request.Scheme)','New Tax')" class="btn btn-primary mb-3" style="width: 150px; align-content:center;">
+            <i class="bi bi-plus-lg"></i> Create New
+        </a>
+    </p>
+
+    <form class="d-flex col-4 offset-md-8  mb-3">
+        <input class="form-control me-sm-2" type="search" placeholder="Search" name="searchTerm">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TRCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TRName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TRAcc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TRRate)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TRCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TRName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TRAcc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TRRate)
+                    </td>
+                    <td>
+                        <a onclick="showInPopup('@Url.Action("AddEdit","TaxRate",new{id = item.TRId},Context.Request.Scheme)','Update Tax')" class="btn btn btn-warning">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                       @* <a asp-action="Edit" asp-route-id="@item.TRId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.TRId">Details</a> |*@
+                        <a asp-action="Delete" asp-route-id="@item.TRId" class="btn btn-danger">
+                            <i class="bi bi-x-square"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

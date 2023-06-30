@@ -1,0 +1,74 @@
+﻿@model Sales_Purchase1.Models.TaxRate
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddEdit" asp-route-id="@Model.TRId" onsubmit="return jQueryAjaxPost(this);">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TRId" />
+
+
+            <div class="row">
+                <div class="col-md-6">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TRCode" class="control-label">Tax Code <span style="color: red;">*</span></label>
+                <input asp-for="TRCode" class="form-control" required/>
+                <span asp-validation-for="TRCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TRName" class="control-label">Tax Name <span style="color: red;">*</span></label>
+                <input asp-for="TRName" class="form-control" required/>
+                <span asp-validation-for="TRName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TRAcc" class="control-label"></label>
+                <input asp-for="TRAcc" class="form-control" />
+                <span asp-validation-for="TRAcc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TRPurhaseT" class="control-label"></label>
+                <input asp-for="TRPurhaseT" class="form-control" />
+                <span asp-validation-for="TRPurhaseT" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TRSalesT" class="control-label"></label>
+                <input asp-for="TRSalesT" class="form-control" />
+                <span asp-validation-for="TRSalesT" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TRCompenats" class="control-label"></label>
+                <input asp-for="TRCompenats" class="form-control" />
+                <span asp-validation-for="TRCompenats" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TRRate" class="control-label">Tax Rate <span style="color: red;">*</span></label>
+                <input asp-for="TRRate" class="form-control" required/>
+                <span asp-validation-for="TRRate" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="TRUser" class="control-label"></label>
+                <input asp-for="TRUser" class="form-control" />
+                <span asp-validation-for="TRUser" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group col">
+                <input type="submit" value="Save" class="btn btn-primary mb-3" style="width: 200px;" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

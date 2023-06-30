@@ -1,0 +1,139 @@
+﻿@model IPagedList<Sales_Purchase1.Models.SalesPurchase>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+
+@{
+    ViewData["Title"] = "POIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<partial name="_Notification" />
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index" style="text-decoration:none">Home</a></li>
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="SalesPurchase" asp-action="" style="text-decoration:none">Purchase</a></li>
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="SalesPurchase" asp-action="POIndex" style="text-decoration:none">Purchase Order</a></li>
+    <li class="breadcrumb-item active">View</li>
+</ol>
+
+<div class="exp1">
+    <p>
+        <a asp-action="POCreate" class="btn btn-primary mb-3" style="width: 150px; align-content:center;">
+            <i class="bi bi-plus-lg"></i> Create New
+        </a>
+    </p>
+
+    <a asp-route-sortOrder="All" asp-route-searchTerm="@ViewBag.CurrentSearchTerm" style="text-decoration: none;"> All </a> |
+    <a asp-route-sortOrder="Draft" asp-route-searchTerm="@ViewBag.CurrentSearchTerm" style="text-decoration: none;"> Draft </a> |
+    <a asp-route-sortOrder="AwaitingPayment" asp-route-searchTerm="@ViewBag.CurrentSearchTerm" style="text-decoration: none;"> Awaiting Payment </a> |
+    <a asp-route-sortOrder="Paid" asp-route-searchTerm="@ViewBag.CurrentSearchTerm" style="text-decoration: none;"> Paid </a>
+
+    <form class="d-flex col-4 offset-md-8  mb-3">
+        <input class="form-control me-sm-2" type="search" placeholder="Search" name="searchTerm">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().DocCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().DocReference)
+                </th>
+                <th>
+                    Supplier
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().DocDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().DocDeliveryDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().DocTotalPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().DocStatus)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocReference)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocContact)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocDeliveryDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocTotalPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocStatus)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.DocId" class="btn btn-info">
+                            <i class="bi bi-card-text"></i>
+                        </a>
+                        @if (item.DocStatus == "Draft")
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.DocId" class="btn btn-danger">
+                                <i class="bi bi-x-square"></i>
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @if (Model.HasPreviousPage)
+        {
+            @Html.ActionLink("  <<  ", "Index", new { page = 1, searchTerm = Context.Request.Query["searchTerm"] }, new { @class = "no-underline" })
+            @Html.ActionLink("  <  ", "Index", new { page = Model.PageNumber - 1, searchTerm =  Context.Request.Query["searchTerm"] }, new { @class = "no-underline" })
+        }
+        else
+        {
+            @:<<
+            @:<
+        }
+
+        @if (Model.HasNextPage)
+        {
+            @Html.ActionLink("  >   ", "Index", new { page = Model.PageNumber + 1, searchTerm =  Context.Request.Query["searchTerm"] }, new { @class = "no-underline" })
+            @Html.ActionLink("  >>  ", "Index", new { page = Model.PageCount, searchTerm =  Context.Request.Query["searchTerm"] }, new { @class = "no-underline" })
+        }
+        else
+        {
+            @:>
+            @:>>
+        }
+    </div>
+    <form method="get">
+        <label for="pageSize">Records per page:</label>
+        <select id="pageSize" name="pageSize" onchange="this.form.submit()">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <!-- Add more options as needed -->
+        </select>
+    </form>
+</div>
+

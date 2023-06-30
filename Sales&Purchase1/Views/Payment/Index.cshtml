@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Sales_Purchase1.Models.Payment>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PayCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaycDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PayMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PayReference)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PayNote)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PayAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PayUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalesPurchase)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaycDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayMethod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayReference)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayNote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SalesPurchase.DocId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PayId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PayId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PayId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

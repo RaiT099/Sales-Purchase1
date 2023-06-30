@@ -1,0 +1,77 @@
+﻿@model Sales_Purchase1.Models.TaxRate
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index" style="text-decoration:none">Home</a></li>
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="TaxRate" asp-action="Index" style="text-decoration:none">Tax Rate</a></li>
+    <li class="breadcrumb-item active">Delete</li>
+</ol>
+
+<div class="exp1">
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TaxRate</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TRCode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TRCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TRName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TRName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TRAcc)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TRAcc)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TRPurhaseT)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TRPurhaseT)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TRSalesT)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TRSalesT)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TRCompenats)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TRCompenats)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TRRate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TRRate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TRUser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TRUser)
+        </dd>
+    </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="TRId" />
+            <input type="submit" value="Delete" class="btn btn-danger mb-3" style="width: 200px;" />
+            <a asp-action="Index" class="btn btn-secondary mb-3" style="width: 200px;">Back to List</a>
+        </form>
+</div>
+</div>

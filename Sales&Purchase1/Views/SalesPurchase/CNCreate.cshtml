@@ -1,0 +1,419 @@
+﻿@model Tuple<Sales_Purchase1.Models.SalesPurchase, List<Sales_Purchase1.Models.ItemList>>
+
+@{
+    ViewData["Title"] = "CNCreate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('#addRow').click(function () {
+                var rowCount = $('#ItemListTable tbody tr').length;
+                var newRow = $('.detailRow').first().clone();
+                newRow.find('input').val('');
+                newRow.find('.product-select').attr('name', 'Item2[' + rowCount + '].ProductId');
+                newRow.find('.item-qty-input').attr('name', 'Item2[' + rowCount + '].ItemQty');
+                newRow.find('.item-unit-input').attr('name', 'Item2[' + rowCount + '].ItemUnit');
+                newRow.find('.item-type-select').attr('name', 'Item2[' + rowCount + '].ItemType');
+                newRow.find('.item-price-input').attr('name', 'Item2[' + rowCount + '].ItemPrice');
+                newRow.find('.item-amount-label').attr('name', 'Amount[' + rowCount + ']').text('0.00');
+                newRow.appendTo($('#ItemListTable tbody'));
+            });
+
+            $(document).on('click', '.removeRow', function () {
+                if ($('#ItemListTable tbody tr').length > 1) {
+                    $(this).closest('tr').remove();
+                }
+                calculateTotalAmount();
+            });
+
+            $(document).on('keyup change', 'select.product-select', function () {
+                var productId = $(this).val();
+                var index = $(this).closest('tr').index(); // you can use .index() to get the row index
+                // alert('Product ID: ' + productId + ', Index: ' + index);
+                GetItemlist(productId, index);
+            });
+
+            $(document).on('keyup change', 'select.contact-select', function () {
+                var ContactId = $(this).val();
+                //alert('Contact ID: ' + ContactId);
+                GetContactName(ContactId);
+            });
+
+            $(document).on('keyup change', 'select.tax-select', function () {
+                var TRId = $(this).val();
+                //alert('Tax ID: ' + TRId);
+                GetTaxNum(TRId);
+            });
+
+            $(document).on('change', 'input.item-qty-input, input.item-price-input', function () {
+                // Get the parent row
+                var row = $(this).closest('tr');
+
+                // Get the quantity and price for this row
+                var qty = parseFloat(row.find('input.item-qty-input').val()) || 0;
+                var price = parseFloat(row.find('input.item-price-input').val()) || 0;
+
+                // Calculate the amount
+                var amount = qty * price;
+
+                // Update the amount label
+                row.find('p.item-amount-label').text(amount.toFixed(2));
+                calculateTotalAmount();
+            });
+
+            document.getElementById('Item1_DocCode').addEventListener('change', function () {
+                var docCode = this.value;
+                fetch('/salespurchase/CNCheckDocCode?docCode=' + docCode)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.docCodeExists) {
+                            alert(docCode + ' already exists. Please enter a different DocCode.');
+                            this.value = '';  // Clear the input field
+                        }
+                    });
+            });
+
+        });
+
+        function GetItemlist(productId, index) {
+            //alert(productId);
+            $.ajax({
+                async: true,
+                type: 'GET',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: { productId: productId },
+                url: '/salespurchase/getItemlist',
+                success: function (data) {
+                    console.log(data);
+                    var row = $('#ItemListTable tbody tr').eq(index);
+                    row.find('input.item-price-input').val(parseFloat(data.productSellPrice).toFixed(2));
+                    row.find('input.item-unit-input').val(data.productUnit);
+                    row.find('input.item-qty-input').val(1);
+                    calculateRowAmount(row);
+                    calculateTotalAmount();
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
+        }
+
+        function GetContactName(contactId) {
+            $.ajax({
+                async: true,
+                type: 'GET',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: { contactId: contactId },
+                url: '/salespurchase/getContactName',
+                success: function (data) {
+                    console.log(data);
+                    $('input.contact-name-input').val(data.contactName);
+                    $('input.contact-address-input').val(data.contactAddress1);
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
+        }
+
+        function GetTaxNum(TRId) {
+            $.ajax({
+                async: true,
+                type: 'GET',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: { TRId: TRId },
+                url: '/salespurchase/getTaxNum',
+                success: function (data) {
+                    console.log(data);
+                    $('input.tax-num-input').val(data.tRRate);
+                    calculateTotalAmount();
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
+        }
+
+        function calculateRowAmount(row) {
+            var qty = parseFloat(row.find('input.item-qty-input').val());
+            var price = parseFloat(row.find('input.item-price-input').val());
+
+            // Check if qty and price are valid numbers (i.e., they are not NaN)
+            if (!isNaN(qty) && !isNaN(price)) {
+                var amount = qty * price;
+                row.find('p.item-amount-label').text(amount.toFixed(2));
+            }
+            else {
+                row.find('p.item-amount-label').text('0.00');
+            }
+        }
+
+        function calculateTotalAmount() {
+            var totalAmount = 0;
+            $("p.item-amount-label").each(function () {
+                var amount = parseFloat($(this).text());
+
+                if (!isNaN(amount)) {
+                    totalAmount += amount;
+                }
+
+
+            });
+
+            var tax = parseFloat($('.tax-num-input').val()) || 0; // Parse the value to a float. Use 0 if parsing fails.
+            //alert(tax);
+            var taxtotalAmount = totalAmount;
+            if (tax !== 0) {
+                taxtotalAmount = totalAmount * ((tax / 100) + 1); // Calculate percentage.
+            }
+            //alert(taxtotalAmount);
+
+            //console.log(totalAmount);
+            $("#Item1_DocTotalPrice").val(taxtotalAmount.toFixed(2));
+        }
+
+        function validateForm() {
+            var selectElements = document.getElementsByClassName('item-type-select');
+            console.log(selectElements);
+            for (var i = 0; i < selectElements.length; i++) {
+                var itemType = selectElements[i].value;
+
+                if (itemType !== "Inventory") {
+                    alert("Currently,Acount Type only works for Inventory. Please check the form.");
+
+                    // Return false to prevent form submission
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+    </script>
+}
+
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index" style="text-decoration:none">Home</a></li>
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="SalesPurchase" asp-action="" style="text-decoration:none">Purchase</a></li>
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="SalesPurchase" asp-action="CNIndex" style="text-decoration:none">Credit Note</a></li>
+    <li class="breadcrumb-item active">Create</li>
+</ol>
+
+<div class="exp1">
+    <h4 class="mb-4">Create New Credit Note</h4>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="CNCreate">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Supplier</label>
+                            <select asp-for="Item1.ContactId" class="form-control contact-select" asp-items="ViewBag.ContactId"></select>
+                            <span asp-validation-for="Item1.ContactId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3" hidden>
+                            <label asp-for="Item1.DocContact" class="control-label"></label>
+                            <input asp-for="Item1.DocContact" class="form-control contact-name-input" />
+                            <span asp-validation-for="Item1.DocContact" class="text-danger"></span>
+                        </div>
+                        <div class="form-group  mb-3" hidden>
+                            <label asp-for="Item1.DocAddress" class="control-label"></label>
+                            <input asp-for="Item1.DocAddress" class="form-control contact-address-input" />
+                            <span asp-validation-for="Item1.DocAddress" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group mb-3">
+                            <label asp-for="Item1.DocDate" class="control-label"></label>
+                            <input asp-for="Item1.DocDate" class="form-control" />
+                            <span asp-validation-for="Item1.DocDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group mb-3">
+                            <label asp-for="Item1.DocExpTime" class="control-label"></label>
+                            <input asp-for="Item1.DocExpTime" class="form-control" />
+                            <span asp-validation-for="Item1.DocExpTime" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Tax </label>
+                            <select asp-for="Item1.TRId" class="form-control tax-select" asp-items="ViewBag.TRId"></select>
+                            <span asp-validation-for="Item1.TRId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label asp-for="Item1.DocCode" class="control-label"></label>
+                            <input asp-for="Item1.DocCode" class="form-control" required />
+                            <span asp-validation-for="Item1.DocCode" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Item1.DocReference" class="control-label"></label>
+                            <input asp-for="Item1.DocReference" class="form-control" />
+                            <span asp-validation-for="Item1.DocReference" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <br />
+                <br />
+
+                <table id="ItemListTable" class="table table-bordered col-md-12 mb-3">
+                    <thead>
+                        <tr style="background-color:lightgrey;">
+                            <th class="col-md-3"> <label class="control-label">Product</label></th>
+                            <th class="col-md-2"><label asp-for="Item2[0].ItemQty" class="control-label"></label></th>
+                            <th class="col-md-1"><label asp-for="Item2[0].ItemUnit" class="control-label"></label></th>
+                            <th class="col-md-2"><label asp-for="Item2[0].ItemType" class="control-label"></label></th>
+                            <th class="col-md-2"><label asp-for="Item2[0].ItemPrice" class="control-label"></label></th>
+                            <th class="col-md-2">Amount</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="detailRow">
+
+                            <td>
+                                @* <input asp-for="Item2[0].DocId" class="form-control" min="1" hidden />*@
+                                <input asp-for="Item2[0].ItemId" class="form-control" min="1" hidden />
+                                <select asp-for="Item2[0].ProductId" name="Item2[0].ProductId" class="form-control product-select" asp-items="ViewBag.ProductId"></select>
+                                <span asp-validation-for="Item2[0].ProductId" class="text-danger"></span>
+                            </td>
+                            <td>
+                                <input asp-for="Item2[0].ItemQty" class="form-control item-qty-input" min="1" />
+                            </td>
+                            <td>
+                                <input asp-for="Item2[0].ItemUnit" class="form-control item-unit-input" />
+                            </td>
+                            <td>
+                                <select asp-for="Item2[0].ItemType" class="form-control item-type-select" asp-items="ViewBag.ItemType"></select>
+                            </td>
+                            <td>
+                                <input asp-for="Item2[0].ItemPrice" class="form-control item-price-input text-end" readonly />
+                                <input asp-for="Item2[0].ItemUser" class="form-control" hidden />
+                            </td>
+                            <td class="col-md-2">
+                                <p class="item-amount-label text-end" name="Amount[0]"></p>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger removeRow"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <button type="button" class="btn btn-primary" id="addRow">Add Row</button>
+                            </td>
+                            <td colspan="6">
+                                <div class="form-group row">
+                                    <div class="text-end col fw-bold">
+                                        <label asp-for="Item1.DocTax" class="control-label"></label>
+                                    </div>
+                                    <div class="col col-md-3">
+                                        <input asp-for="Item1.DocTax" class="form-control tax-num-input text-end" readonly />
+                                        <span asp-validation-for="Item1.DocTax" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="text-end col fw-bold">
+                                        <br />
+                                        <label asp-for="Item1.DocTotalPrice" class="control-label"></label>
+                                    </div>
+                                    <div class="col col-md-3">
+                                        <div class="horizontal-line"></div>
+                                        <input asp-for="Item1.DocTotalPrice" class="form-control text-end" readonly />
+                                        <span asp-validation-for="Item1.DocTotalPrice" class="text-danger"></span>
+                                        <div class="horizontal-line"></div>
+                                        <div class="horizontal-line"></div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+
+                </table>
+
+                <br />
+                <br />
+
+                <div class="row">
+                    <div class="col text-left">
+                        <a asp-action="CNIndex" class="btn btn-secondary mb-3" style="width: 200px;">Back to List</a>
+                    </div>
+                    <div class=" col text-end">
+                        <div class="row">
+                            <div class="form-group col">
+                                <input type="submit" value="Create" class="btn btn-primary mb-3" style="width: 200px; " onclick="return validateForm()" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group col" hidden>
+                    <input type="submit" value="Approve" class="btn btn-primary mb-3" style="width: 200px; " />
+                </div>
+
+
+
+
+                <div class="form-group " hidden>
+                    <label asp-for="Item1.DocStatus" class="control-label"></label>
+                    <input asp-for="Item1.DocStatus" class="form-control" />
+                    <span asp-validation-for="Item1.DocStatus" class="text-danger"></span>
+                </div>
+
+                <div class="form-group" hidden>
+                    <label asp-for="Item1.DocType" class="control-label"></label>
+                    <input asp-for="Item1.DocType" class="form-control" />
+                    <span asp-validation-for="Item1.DocType" class="text-danger"></span>
+                </div>
+
+                <div class="form-group" hidden>
+                    <label asp-for="Item1.DocDeliveryDate" class="control-label"></label>
+                    <input asp-for="Item1.DocDeliveryDate" class="form-control" />
+                    <span asp-validation-for="Item1.DocDeliveryDate" class="text-danger"></span>
+                </div>
+
+
+
+                <div class="form-group" hidden>
+                    <label asp-for="Item1.DocCreateDate" class="control-label"></label>
+                    <input asp-for="Item1.DocCreateDate" class="form-control" />
+                    <span asp-validation-for="Item1.DocCreateDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group" hidden>
+                    <label asp-for="Item1.DocOutstanding" class="control-label"></label>
+                    <input asp-for="Item1.DocOutstanding" class="form-control" />
+                    <span asp-validation-for="Item1.DocOutstanding" class="text-danger"></span>
+                </div>
+                <div class="form-group" hidden>
+                    <label asp-for="Item1.DocUser" class="control-label"></label>
+                    <input asp-for="Item1.DocUser" class="form-control" />
+                    <span asp-validation-for="Item1.DocUser" class="text-danger"></span>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+

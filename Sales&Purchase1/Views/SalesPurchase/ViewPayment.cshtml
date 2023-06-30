@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Sales_Purchase1.Models.Payment>
+
+@{
+     ViewData["Title"] = "ViewPayment";
+    Layout = null;
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PayCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PayAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaycDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PayMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PayReference)
+            </th>
+        </tr>
+    </thead>
+     <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PayCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PayAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaycDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PayMethod)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PayReference)
+                </td>
+            </tr>
+            }
+    </tbody>
+</table>

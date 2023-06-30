@@ -1,0 +1,330 @@
+﻿@model Sales_Purchase1.Models.SalesPurchase
+
+@{
+    var itemList = ViewData["ItemList"] as List<ItemList>;
+    var payment = ViewData["Payment"] as Sales_Purchase1.Models.Payment;
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<partial name="_Notification" />
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index" style="text-decoration:none">Home</a></li>
+    @if (Model.DocType == "PO" || Model.DocType == "PR" || Model.DocType == "Bill")
+    {
+         <li class="breadcrumb-item"><a asp-area="" asp-controller="SalesPurchase" asp-action="" style="text-decoration:none">Purchase</a></li>
+    }
+    else
+    {
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="SalesPurchase" asp-action="" style="text-decoration:none">Sales</a></li>
+    }
+
+    @if (Model.DocType == "QO")
+    {
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="SalesPurchase" asp-action="QOIndex" style="text-decoration:none">Quottation</a></li>
+    }
+    @if (Model.DocType == "INV")
+    {
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="SalesPurchase" asp-action="INVIndex" style="text-decoration:none">Invoice</a></li>
+    }
+    @if (Model.DocType == "CN")
+    {
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="SalesPurchase" asp-action="CNIndex" style="text-decoration:none">Credit Note</a></li>
+    }
+    @if (Model.DocType == "PO")
+    {
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="SalesPurchase" asp-action="POIndex" style="text-decoration:none">Purchase Order</a></li>
+    }
+    @if (Model.DocType == "Bill")
+    {
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="SalesPurchase" asp-action="BillIndex" style="text-decoration:none">Bill</a></li>
+    }
+    @if (Model.DocType == "PR")
+    {
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="SalesPurchase" asp-action="PRIndex" style="text-decoration:none">Purchase Return</a></li>
+    }
+    <li class="breadcrumb-item active">Details</li>
+</ol>
+
+
+<div class="exp1">
+    <h4 class="mb-4">Details</h4>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <dl class="row">
+                <div class="col-md-4">
+                    @if (Model.DocType == "PO" || Model.DocType == "PR" || Model.DocType == "Bill")
+                    {
+                        <dt>
+                            Supplier
+                        </dt>
+                    }
+                    else
+                    {
+                        <dt>
+                            Custmer
+                        </dt>
+                    }
+                    <dd >
+                        @Html.DisplayFor(model => model.DocContact)
+                    </dd>
+
+                    @if (Model.DocType == "PO" || Model.DocType == "QO")
+                    {
+                        <dt >
+                            @Html.DisplayNameFor(model => model.DocAddress)
+                        </dt>
+                        <dd >
+                            @Html.DisplayFor(model => model.DocAddress)
+                        </dd> 
+                    }
+                   
+                </div>
+                <div class="col-md-2">
+                    <dt >
+                        @Html.DisplayNameFor(model => model.DocDate)
+                    </dt>
+                    <dd >
+                        @Html.DisplayFor(model => model.DocDate)
+                    </dd>
+                </div>
+                <div class="col-md-2">
+                    @if (Model.DocType == "INV" || Model.DocType == "CN" || Model.DocType == "PR" || Model.DocType == "Bill")
+                    {
+                        <dt >
+                            @Html.DisplayNameFor(model => model.DocExpTime)
+                        </dt>
+                        <dd >
+                            @Html.DisplayFor(model => model.DocExpTime)
+                        </dd> 
+                    }
+                    else
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.DocDeliveryDate)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.DocDeliveryDate)
+                        </dd>
+                    }
+                    
+                </div>
+                <div class="col-md-2">
+                    <dt >
+                        @Html.DisplayNameFor(model => model.TaxRate)
+                    </dt>
+                    <dd >
+                        @Html.DisplayFor(model => model.TaxRate.TRName)
+                    </dd>
+                </div>
+                <div class="col-md-2">
+                    <dt >
+                        @Html.DisplayNameFor(model => model.DocCode)
+                    </dt>
+                    <dd >
+                        @Html.DisplayFor(model => model.DocCode)
+                    </dd>
+                    <dt >
+                        @Html.DisplayNameFor(model => model.DocReference)
+                    </dt>
+                    <dd >
+                        @Html.DisplayFor(model => model.DocReference)
+                    </dd>
+                </div>
+            </dl>
+
+            <br />
+            <br />
+
+            <table class="table table-bordered  col-md-12 mb-3">
+            <thead>
+                <tr style="background-color:lightgrey;">
+                    <th class="col-md-3">Product</th>
+                    <th class="col-md-2">Qty</th>
+                    <th class="col-md-1">Unit</th>
+                    <th class="col-md-2">Acount Type</th>
+                    <th class="col-md-2">Unit Price</th>
+                    <th class="col-md-2">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in itemList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Product.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemQty)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemUnit)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemType)
+                        </td>
+                        <td class="text-end">
+                            @Html.DisplayFor(modelItem => item.ItemPrice)
+                        </td>
+                        <td>
+                            @{
+                                var amount = item.ItemQty * item.ItemPrice;
+                            }
+                            <p class="item-amount-label text-end" name="Amount">@amount.ToString("F2")</p>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            @if (Model.DocTax != "0" && Model.DocTax != null)
+                            {
+                                <div class="row">
+                                    <div class="text-end col fw-bold">
+                                            @Html.DisplayNameFor(model => model.DocTax)
+                                    </div>
+                                    <div class="col col-md-2 text-end">
+                                            @Html.DisplayFor(model => model.DocTax) %
+                                    </div>
+                                </div>
+                            }
+                            
+                            <div class="row">
+                                <div class="text-end col fw-bold">
+                                    <br />
+                                    @Html.DisplayNameFor(model => model.DocTotalPrice)
+                                </div>
+                                <div class="col col-md-2 text-end">
+                                    <div class="horizontal-line"></div>
+                                    @Html.DisplayFor(model => model.DocTotalPrice)
+                                    <div class="horizontal-line"></div>
+                                    <div class="horizontal-line"></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+
+
+                <dl class="row" hidden>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.DocType)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.DocType)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.DocCreateDate)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.DocCreateDate)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.DocStatus)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.DocStatus)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.DocOutstanding)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.DocOutstanding)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.DocUser)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.DocUser)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.Contact)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.Contact.ContactCode)
+                    </dd>
+                </dl>
+        </div>
+    </div>
+
+    <br />
+    <div class="row">
+        @if (Model.DocType == "QO")
+        {
+           <div class="col text-left">
+               <a asp-action="QOIndex" class="btn btn-secondary mb-3" style="width: 200px;">Back to List</a>
+           </div> 
+        }
+         @if (Model.DocType == "INV")
+        {
+           <div class="col text-left">
+               <a asp-action="INVIndex" class="btn btn-secondary mb-3" style="width: 200px;">Back to List</a>
+           </div> 
+        }
+         @if (Model.DocType == "CN")
+        {
+           <div class="col text-left">
+               <a asp-action="CNIndex" class="btn btn-secondary mb-3" style="width: 200px;">Back to List</a>
+           </div> 
+        }
+         @if (Model.DocType == "PO")
+        {
+           <div class="col text-left">
+               <a asp-action="POIndex" class="btn btn-secondary mb-3" style="width: 200px;">Back to List</a>
+           </div> 
+        }
+         @if (Model.DocType == "Bill")
+        {
+           <div class="col text-left">
+               <a asp-action="BillIndex" class="btn btn-secondary mb-3" style="width: 200px;">Back to List</a>
+           </div> 
+        }
+         @if (Model.DocType == "PR")
+        {
+           <div class="col text-left">
+               <a asp-action="PRIndex" class="btn btn-secondary mb-3" style="width: 200px;">Back to List</a>
+           </div> 
+        }
+
+        
+        @if (Model.DocStatus == "Draft")
+        {
+            <div class=" col text-end">
+                <form asp-action="Approve" method="post">
+                    <input type="hidden" asp-for="DocId" name="id" />
+                    <input type="submit" value="Approve" class="btn btn-primary mb-3" style="width: 200px;" />
+                </form>
+            </div>
+        }
+
+        @if (Model.DocStatus == "Paid")
+        {
+            @if (Model.DocType == "INV" || Model.DocType == "CN" || Model.DocType == "PR" || Model.DocType == "Bill")
+            {
+                <div class=" col text-end">
+                        <p>
+                        <a onclick="showInPopup('@Url.Action("ViewPayment","SalesPurchase",new{id = Model.DocId},Context.Request.Scheme)','Payment Detail')" class="btn btn-outline-info mb-3" style="width: 200px; align-content:center;">
+                            View Payment
+                        </a>
+                    </p>
+                </div>
+            }
+        }
+
+    </div>
+    <br />
+    @if (Model.DocStatus == "Awaiting Payment") //Awaiting Payment
+    {
+        @if (Model.DocType == "INV" || Model.DocType == "CN" || Model.DocType == "PR" || Model.DocType == "Bill")
+        {
+            <hr />
+            @await Html.PartialAsync("_Payment", payment)
+        }
+    }
+   
+</div>

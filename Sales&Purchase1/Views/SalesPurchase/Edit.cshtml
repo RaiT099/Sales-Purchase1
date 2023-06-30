@@ -1,0 +1,107 @@
+﻿@model Sales_Purchase1.Models.SalesPurchase
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>SalesPurchase</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="DocId" />
+            <div class="form-group">
+                <label asp-for="DocCode" class="control-label"></label>
+                <input asp-for="DocCode" class="form-control" />
+                <span asp-validation-for="DocCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocContact" class="control-label"></label>
+                <input asp-for="DocContact" class="form-control" />
+                <span asp-validation-for="DocContact" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocType" class="control-label"></label>
+                <input asp-for="DocType" class="form-control" />
+                <span asp-validation-for="DocType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocDate" class="control-label"></label>
+                <input asp-for="DocDate" class="form-control" />
+                <span asp-validation-for="DocDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocDeliveryDate" class="control-label"></label>
+                <input asp-for="DocDeliveryDate" class="form-control" />
+                <span asp-validation-for="DocDeliveryDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocExpTime" class="control-label"></label>
+                <input asp-for="DocExpTime" class="form-control" />
+                <span asp-validation-for="DocExpTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocReference" class="control-label"></label>
+                <input asp-for="DocReference" class="form-control" />
+                <span asp-validation-for="DocReference" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocTax" class="control-label"></label>
+                <input asp-for="DocTax" class="form-control" />
+                <span asp-validation-for="DocTax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocCreateDate" class="control-label"></label>
+                <input asp-for="DocCreateDate" class="form-control" />
+                <span asp-validation-for="DocCreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocAddress" class="control-label"></label>
+                <input asp-for="DocAddress" class="form-control" />
+                <span asp-validation-for="DocAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocStatus" class="control-label"></label>
+                <input asp-for="DocStatus" class="form-control" />
+                <span asp-validation-for="DocStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocTotalPrice" class="control-label"></label>
+                <input asp-for="DocTotalPrice" class="form-control" />
+                <span asp-validation-for="DocTotalPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocOutstanding" class="control-label"></label>
+                <input asp-for="DocOutstanding" class="form-control" />
+                <span asp-validation-for="DocOutstanding" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocUser" class="control-label"></label>
+                <input asp-for="DocUser" class="form-control" />
+                <span asp-validation-for="DocUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactId" class="control-label"></label>
+                <select asp-for="ContactId" class="form-control" asp-items="ViewBag.ContactId"></select>
+                <span asp-validation-for="ContactId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TRId" class="control-label"></label>
+                <select asp-for="TRId" class="form-control" asp-items="ViewBag.TRId"></select>
+                <span asp-validation-for="TRId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="BillIndex">Back to List</a>
+</div>
+

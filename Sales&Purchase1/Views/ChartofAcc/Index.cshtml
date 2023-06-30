@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Sales_Purchase1.Models.ChartofAcc>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<partial name="_Notification" />
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index" style="text-decoration:none">Home</a></li>
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="ChartofAcc" asp-action="Index" style="text-decoration:none">Chart of Account</a></li>
+    <li class="breadcrumb-item active">View</li>
+</ol>
+
+<div id="view-all">
+    @await Html.PartialAsync("_ViewAll",Model)
+</div>

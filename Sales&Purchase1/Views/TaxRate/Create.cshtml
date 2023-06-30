@@ -1,0 +1,69 @@
+﻿@model Sales_Purchase1.Models.TaxRate
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>TaxRate</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TRCode" class="control-label"></label>
+                <input asp-for="TRCode" class="form-control" />
+                <span asp-validation-for="TRCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TRName" class="control-label"></label>
+                <input asp-for="TRName" class="form-control" />
+                <span asp-validation-for="TRName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TRAcc" class="control-label"></label>
+                <input asp-for="TRAcc" class="form-control" />
+                <span asp-validation-for="TRAcc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TRPurhaseT" class="control-label"></label>
+                <input asp-for="TRPurhaseT" class="form-control" />
+                <span asp-validation-for="TRPurhaseT" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TRSalesT" class="control-label"></label>
+                <input asp-for="TRSalesT" class="form-control" />
+                <span asp-validation-for="TRSalesT" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TRCompenats" class="control-label"></label>
+                <input asp-for="TRCompenats" class="form-control" />
+                <span asp-validation-for="TRCompenats" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TRRate" class="control-label"></label>
+                <input asp-for="TRRate" class="form-control" />
+                <span asp-validation-for="TRRate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TRUser" class="control-label"></label>
+                <input asp-for="TRUser" class="form-control" />
+                <span asp-validation-for="TRUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

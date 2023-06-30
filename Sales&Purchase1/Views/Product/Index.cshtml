@@ -1,0 +1,129 @@
+﻿@model IPagedList<Sales_Purchase1.Models.Product>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<partial name="_Notification" />
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index" style="text-decoration:none">Home</a></li>
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Product" asp-action="Index" style="text-decoration:none">Product</a></li>
+    <li class="breadcrumb-item active">View</li>
+</ol>
+
+<div class="exp1">
+    
+<p>
+        <a asp-action="Create" class="btn btn-primary mb-3" style="width: 150px; align-content:center;">
+            <i class="bi bi-plus-lg"></i> Create New
+        </a>
+</p>
+
+    <form class="d-flex col-4 offset-md-8  mb-3">
+        <input class="form-control me-sm-2" type="search" placeholder="Search" name="searchTerm">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                    @Html.DisplayNameFor(model => model.First().ProductCode)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.First().ProductName)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.First().ProductCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().ProductCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().ProductSellPrice)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.First().ProductStock)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductCategory)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.ProductCost)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.ProductSellPrice)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.ProductStock)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-warning">
+                    <i class="bi bi-pencil-square"></i>
+                </a> 
+                <a asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-info">
+                    <i class="bi bi-card-text"></i>
+                </a>
+                <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-danger">
+                    <i class="bi bi-x-square"></i>
+                </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+    <div>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @if (Model.HasPreviousPage)
+        {
+            @Html.ActionLink("  <<  ", "Index", new { page = 1, searchTerm = Context.Request.Query["searchTerm"] }, new { @class = "no-underline" })
+            @Html.ActionLink("  <  ", "Index", new { page = Model.PageNumber - 1, searchTerm =  Context.Request.Query["searchTerm"] }, new { @class = "no-underline" })
+        }
+        else
+        {
+            @:<<
+            @:<
+        }
+
+        @if (Model.HasNextPage)
+        {
+            @Html.ActionLink("  >  ", "Index", new { page = Model.PageNumber + 1, searchTerm =  Context.Request.Query["searchTerm"] }, new { @class = "no-underline" })
+            @Html.ActionLink("  >>  ", "Index", new { page = Model.PageCount, searchTerm =  Context.Request.Query["searchTerm"] }, new { @class = "no-underline" })
+        }
+        else
+        {
+            @:>
+            @:>>
+        }
+    </div>
+    <form method="get">
+        <label for="pageSize">Records per page:</label>
+        <select id="pageSize" name="pageSize" onchange="this.form.submit()">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <!-- Add more options as needed -->
+        </select>
+    </form>
+
+</div>
+

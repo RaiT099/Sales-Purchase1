@@ -1,0 +1,296 @@
+﻿@model Sales_Purchase1.Models.Contact
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index" style="text-decoration:none">Home</a></li>
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Contact" asp-action="Index" style="text-decoration:none">Contact</a></li>
+    <li class="breadcrumb-item active">Details</li>
+</ol>
+<div class="exp1">
+    <div>
+
+        <div class="con3">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#contactdetail" aria-selected="true" role="tab">Contact Detail</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" data-bs-toggle="tab" href="#adressdetail" aria-selected="false" tabindex="-1" role="tab">Adress Detail</a>
+                </li>
+            </ul>
+        </div>
+        <div class="con2">
+            <div class="row">
+                <div class="con1 " style="padding-left: 60px;">
+
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade active show" id="contactdetail" role="tabpanel">
+
+                                <div class="row mb-3">
+                                <div class=" col-sm-1 fw-bold">
+                                        
+                                            @Html.DisplayNameFor(model => model.ContactCode)
+                                        
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                       
+                                            @Html.DisplayFor(model => model.ContactCode)
+                                       
+                                    </div>
+                                <div class=" col-sm-1 fw-bold">
+                                        
+                                            @Html.DisplayNameFor(model => model.ContactName)
+                                       
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                       
+                                            @Html.DisplayFor(model => model.ContactName)
+                                        
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                <div class=" col-sm-1 fw-bold">
+                                        
+                                            @Html.DisplayNameFor(model => model.ContactComName)
+                                        
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                        
+                                            @Html.DisplayFor(model => model.ContactComName)
+                                        
+                                    </div>
+                                <div class=" col-sm-1 fw-bold">
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                <div class=" col-sm-1 fw-bold">
+                                       
+                                            @Html.DisplayNameFor(model => model.ContactPhone)
+                                        
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                        
+                                            @Html.DisplayFor(model => model.ContactPhone)
+                                       
+                                    </div>
+                                <div class=" col-sm-1 fw-bold">
+                                        
+                                            @Html.DisplayNameFor(model => model.ContactEmail)
+                                       
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                       
+                                            @Html.DisplayFor(model => model.ContactEmail)
+                                        
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                <div class=" col col-sm-1 fw-bold">
+                                        
+                                            @Html.DisplayNameFor(model => model.ContactMobile)
+                                       
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                       
+                                            @Html.DisplayFor(model => model.ContactMobile)
+                                        
+                                    </div>
+                                <div class=" col col-sm-1 fw-bold">
+                                       
+                                            @Html.DisplayNameFor(model => model.ContactWeb)
+                                        
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                        
+                                            @Html.DisplayFor(model => model.ContactWeb)
+                                        
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                <div class=" col col-sm-1 fw-bold">
+                                        
+                                            @Html.DisplayNameFor(model => model.ContactDirectDail)
+                                       
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                       
+                                            @Html.DisplayFor(model => model.ContactDirectDail)
+                                        
+                                    </div>
+                                <div class=" col col-sm-1 fw-bold">
+                                        
+                                            @Html.DisplayNameFor(model => model.ContactGroup)
+                                        
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                        
+                                            @Html.DisplayFor(model => model.ContactGroup)
+                                       
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                <div class=" col-sm-1 fw-bold">
+                                       
+                                            @Html.DisplayNameFor(model => model.ContactFax)
+                                        
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                       
+                                            @Html.DisplayFor(model => model.ContactFax)
+                                       
+                                    </div>
+                                <div class=" col col-sm-1 fw-bold">
+                                        </div>
+                                        <div class="col-5 col-sm-5">
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="adressdetail" role="tabpanel">
+
+                                <div class="row mb-3">
+                                <div class=" col-sm-1 fw-bold">
+                                        
+                                            @Html.DisplayNameFor(model => model.ContactPerson1)
+                                        
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                       
+                                            @Html.DisplayFor(model => model.ContactPerson1)
+                                       
+                                    </div>
+                                <div class=" col-sm-1 fw-bold">
+                                        
+                                            @Html.DisplayNameFor(model => model.ContactPerson2)
+                                        
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                       
+                                            @Html.DisplayFor(model => model.ContactPerson2)
+                                        
+                                    </div>
+                                </div>
+                                <div class="row  mb-3">
+                                <div class=" col-sm-1 fw-bold">
+                                        
+                                            @Html.DisplayNameFor(model => model.ContactAddress1)
+                                       
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                       
+                                            @Html.DisplayFor(model => model.ContactAddress1)
+                                        
+                                    </div>
+                                <div class=" col-sm-1 fw-bold">
+                                       
+                                            @Html.DisplayNameFor(model => model.ContactAddress2)
+                                        
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                        
+                                            @Html.DisplayFor(model => model.ContactAddress2)
+                                        
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                <div class=" col-sm-1 fw-bold">
+                                       
+                                            @Html.DisplayNameFor(model => model.ContactZipCode1)
+                                        
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                        
+                                            @Html.DisplayFor(model => model.ContactZipCode1)
+                                        
+                                    </div>
+                                <div class=" col-sm-1 fw-bold">
+                                        
+                                            @Html.DisplayNameFor(model => model.ContactZipCode2)
+                                        
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                       
+                                            @Html.DisplayFor(model => model.ContactZipCode2)
+                                        
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                <div class=" col-sm-1 fw-bold">
+                                        
+                                            @Html.DisplayNameFor(model => model.ContactCity1)
+                                       
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                        
+                                            @Html.DisplayFor(model => model.ContactCity1)
+                                        
+                                    </div>
+                                <div class="col-sm-1 fw-bold">
+                                        
+                                            @Html.DisplayNameFor(model => model.ContactCity2)
+                                        
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                       
+                                            @Html.DisplayFor(model => model.ContactCity2)
+                                        
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                <div class=" col-sm-1 fw-bold">
+                                       
+                                            @Html.DisplayNameFor(model => model.ContactCountry1)
+                                       
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                        
+                                            @Html.DisplayFor(model => model.ContactCountry1)
+                                        
+                                    </div>
+                                <div class=" col-sm-1 fw-bold">
+                                        
+                                            @Html.DisplayNameFor(model => model.ContactCountry2)
+                                        
+                                    </div>
+                                    <div class="col-5 col-sm-5">
+                                        
+                                            @Html.DisplayFor(model => model.ContactCountry2)
+                                       
+                                    </div>
+                                </div>
+                                <div hidden>
+                                    @Html.DisplayNameFor(model => model.ContactUser)
+                                </div>
+                                <div hidden>
+                                    @Html.DisplayFor(model => model.ContactUser)
+                                </div>
+                                <div hidden>
+                                    @Html.DisplayNameFor(model => model.ApplicationUser)
+                                </div>
+                                <div hidden>
+                                    @Html.DisplayFor(model => model.ApplicationUser.Id)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <a asp-action="Edit" asp-route-id="@Model?.ContactId" class="btn btn-primary mb-3" style="width: 200px;">Edit</a> 
+                                <a asp-action="Index" class="btn btn-secondary mb-3" style="width: 200px;">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+        
+
+  
+
+
