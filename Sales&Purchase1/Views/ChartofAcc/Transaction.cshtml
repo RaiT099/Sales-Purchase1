@@ -1,0 +1,105 @@
+﻿@model IPagedList<Sales_Purchase1.Models.Transaction>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+@{
+    ViewData["Title"] = "Transaction";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<partial name="_Notification" />
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index" style="text-decoration:none">Home</a></li>
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="ChartofAcc" asp-action="Index" style="text-decoration:none">Chart of Account</a></li>
+    <li class="breadcrumb-item active">Transaction</li>
+</ol>
+
+<div class="exp1">
+    <br />
+
+    <form class="d-flex col-4 offset-md-8  mb-3">
+        <input class="form-control me-sm-2" type="search" placeholder="Search" name="searchTerm">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().TDetail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().TDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().TDebit)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().TCredit)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TDetail)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TDebit)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TCredit)
+                    </td>
+                    <td>
+                       
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @if (Model.HasPreviousPage)
+        {
+            @Html.ActionLink("  <<  ", "Index", new { page = 1, searchTerm = Context.Request.Query["searchTerm"] }, new { @class = "no-underline" })
+            @Html.ActionLink("  <  ", "Index", new { page = Model.PageNumber - 1, searchTerm =  Context.Request.Query["searchTerm"] }, new { @class = "no-underline" })
+        }
+        else
+        {
+            @:<<
+            @:<
+        }
+
+        @if (Model.HasNextPage)
+        {
+            @Html.ActionLink("  >  ", "Index", new { page = Model.PageNumber + 1, searchTerm =  Context.Request.Query["searchTerm"] }, new { @class = "no-underline" })
+            @Html.ActionLink("  >>  ", "Index", new { page = Model.PageCount, searchTerm =  Context.Request.Query["searchTerm"] }, new { @class = "no-underline" })
+        }
+        else
+        {
+            @:>
+            @:>>
+        }
+    </div>
+    <form method="get">
+        <label for="pageSize">Records per page:</label>
+        <select id="pageSize" name="pageSize" onchange="this.form.submit()">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <!-- Add more options as needed -->
+        </select>
+    </form>
+
+</div>
+

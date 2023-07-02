@@ -32,7 +32,8 @@ namespace Sales_Purchase1.Models
 
 
         [Display(Name = "YTD")]
-        public string? AccYTD { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        public double? AccYTD { get; set; }
 
         [Required(ErrorMessage = "This field cannot empty")]
         public int Acclock { get; set; }

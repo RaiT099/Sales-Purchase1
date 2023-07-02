@@ -57,6 +57,29 @@ namespace Sales_Purchase1.Controllers
             return View(await dBContext.ToPagedListAsync(pageNumber, pageSize));
         }
 
+        public async Task<IActionResult> Transaction(int id, string searchTerm, int? page, int pageSize = 10)
+        {
+            var loginUsername = _userManager.GetUserName(this.User);
+            var dBContext = _context.Transactions.Where(t => t.TUser == loginUsername && t.AccId==id);
+
+            if (dBContext != null && dBContext.Any())
+            {
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    dBContext = dBContext.Where(c => c.TDetail.Contains(searchTerm));
+                }
+
+                int pageNumber = (page ?? 1);
+
+                return View(await dBContext.ToPagedListAsync(pageNumber, pageSize));
+            }
+            else
+            {
+                TempData["error"] = "No data";
+                return RedirectToAction("Index");
+            }
+        }
+
 
         // GET: ChartofAcc/AddEdit
         // GET: ChartofAcc/AddEdit/5
