@@ -43,7 +43,7 @@ Contact Management
 ![image](https://github.com/RaiT099/Sales-Purchase1/assets/88438811/a3a559a2-9ed8-4e4d-a536-2f48ce24ded1)
 
 
-4.3.3.6	Accounting Management
+Accounting Management
 -Chart of Account List page
 ![image](https://github.com/RaiT099/Sales-Purchase1/assets/88438811/de826f17-07a9-4616-89f1-3f9da0b86178)
 
